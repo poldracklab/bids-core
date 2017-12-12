@@ -256,7 +256,7 @@ class Download(base.RequestHandler):
             else:
                 self.response.app_iter = self._archivestream(ticket)
             self.response.headers['Content-Type'] = 'application/octet-stream'
-            self.response.headers['Content-Disposition'] = 'attachment; filename=' + str(ticket['filename'])
+            self.response.headers['Content-Disposition'] = 'attachment; filename="' + str(ticket['filename']) + '"'
             for project_id in ticket['projects']:
                 if snapshot:
                     config.db.project_snapshots.update_one({'_id': project_id}, {'$inc': {'counter': 1}})
