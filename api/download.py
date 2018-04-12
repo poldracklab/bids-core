@@ -193,6 +193,7 @@ class Download(base.RequestHandler):
             for filepath, arcpath, _ in ticket['target']:
                 yield archive.gettarinfo(filepath, arcpath).tobuf()
                 with open(filepath, 'rb') as fd:
+                    chunk = ''
                     for chunk in iter(lambda: fd.read(CHUNKSIZE), ''):
                         yield chunk
                     if len(chunk) % BLOCKSIZE != 0:
