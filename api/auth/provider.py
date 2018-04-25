@@ -48,7 +48,11 @@ def orcid(access_token):
         emails = doc.children[0].person_person.email_emails
         if hasattr(emails, 'email_email'):
             if type(emails.email_email) == list:
-                email = next(e.email_email.cdata for e in emails.email_email if e['primary'] == 'true')
+                try:
+                    email = next(e.email_email.cdata for e in emails.email_email if e['primary'] == 'true')
+                except StopIteration:
+                    # No public primary email set
+                    return
             else:
                 email = emails.email_email.email_email.cdata
 
